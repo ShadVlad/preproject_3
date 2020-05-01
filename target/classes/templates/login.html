@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Login</title>
+</head>
+<body>
+<div class="form">
+    <h3>Вход в систему</h3><br>
+    <form method="post" action="/login">
+        <label >Login    </label><br>
+        <input type="text" required placeholder="login" name="username"><br><br>
+        <label >Password </label><br>
+        <input type="password" required placeholder="password" name="password"><br><br>
+        <input class="button" type="submit" value="Войти">
+    </form>
+</div>
+
+</body>
+</html>
