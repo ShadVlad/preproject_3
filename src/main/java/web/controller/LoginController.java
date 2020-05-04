@@ -12,10 +12,6 @@ import java.io.IOException;
 
 @Controller
 public class LoginController {
-//    @GetMapping("/")
-//    public String homePage() {
-//        return "login";
-//    }
 
     @GetMapping({"/", "/login"})
     public ModelAndView getLogin(Authentication auth,

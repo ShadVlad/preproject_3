@@ -1,10 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <title>View user</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
-<body>
 
+<h2>View Contact</h2>
+<a th:href="@{/logout}">Logout</a>
+<br/><br/>
+<div th:if="${user}">
+    <table border="0">
+        <tr>
+            <td>ID:</td>
+            <td></td>
+            <td th:utext="${user.id}">...</td>
+        </tr>
+        <tr>
+            <td>Name:</td>
+            <td></td>
+            <td th:utext="${user.username}">...</td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td></td>
+            <td th:utext="${user.password}">...</td>
+        </tr>
+    </table>
+    <br/><br/>
+<!--    <div th:if="not ${allowDelete}">-->
+<!--        <a th:href="@{/contacts/{contactId}/edit(contactId=${contact.id})}">Edit</a> |-->
+<!--        <a th:href="@{/contacts/{contactId}/delete(contactId=${contact.id})}">Delete</a>-->
+<!--    </div>-->
+
+<!--    <form th:if="${allowDelete}" th:action="@{/contacts/{contactId}/delete(contactId=${contact.id})}" method="POST">-->
+<!--        Delete this contact? <input type="submit" th:value="Yes" />-->
+<!--    </form>-->
+</div>
+
+<div th:if="${errorMessage}" th:utext="${errorMessage}" class="error" />
 </body>
 </html>
