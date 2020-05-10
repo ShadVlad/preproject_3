@@ -1,43 +1,77 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>View user</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>User page</title>
 </head>
+<body>
+<div class="bg-dark d-flex flex-row align-content-center">
+    <div class="bg-dark pt-2 pl-3">
+        <p class="text-light d-inline"><b th:text="${user.username}"></b> with roles: <p th:each="role : ${user.roles}" th:text="${role.role}" class="text-light d-inline pr-1"></p></p>
+    </div>
+    <div class="bg-dark pt-2 pr-3 ml-auto">
+        <p>
+            <a th:href="@{/logout}" class="text-secondary">Logout</a>
+        </p>
+    </div>
+</div>
+<div class="row p-0 m-0" >
+    <div class="col-2 pt-3 pr-0 pl-0">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a href="/admin" th:if="${user.roles.contains(roleAdmin)}" class="nav-link " id="v-pills-admin-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-admin" aria-selected="true">Admin</a>
+<!--            <a href="/user" class="nav-link text-primary" id="v-pills-user-tab" data-toggle="pill"  role="tab" aria-controls="v-pills-user" aria-selected="true">User</a>-->
+            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">User</a>
 
-<h2>View Contact</h2>
-<a th:href="@{/logout}">Logout</a>
-<br/><br/>
-<div th:if="${user}">
-    <table border="0">
-        <tr>
-            <td>ID:</td>
-            <td></td>
-            <td th:utext="${user.id}">...</td>
-        </tr>
-        <tr>
-            <td>Name:</td>
-            <td></td>
-            <td th:utext="${user.username}">...</td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td></td>
-            <td th:utext="${user.password}">...</td>
-        </tr>
-    </table>
-    <br/><br/>
-<!--    <div th:if="not ${allowDelete}">-->
-<!--        <a th:href="@{/contacts/{contactId}/edit(contactId=${contact.id})}">Edit</a> |-->
-<!--        <a th:href="@{/contacts/{contactId}/delete(contactId=${contact.id})}">Delete</a>-->
-<!--    </div>-->
 
-<!--    <form th:if="${allowDelete}" th:action="@{/contacts/{contactId}/delete(contactId=${contact.id})}" method="POST">-->
-<!--        Delete this contact? <input type="submit" th:value="Yes" />-->
-<!--    </form>-->
+            <!--            <a href="/admin" th:if="${user.roles.contains(roleAdmin)}" class="list-group-item list-group-item-action active border border-info">Admin</a>-->
+<!--            <a href="/user"  class="list-group-item list-group-item-action active border border-info">User</a>-->
+
+        </div>
+    </div>
+    <div class="col-10 pt-3 bg-light pr-0">
+        <div class="tab-content" id="v-pills-tabContent ">
+            <div class="tab-pane fade show active pl-2 pr-3" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                <h1>User information page</h1>
+
+                <div class="border bg-white">
+                    <div class="border-bottom p-3 bg-light font-weight-bolder">About user</div>
+                    <div class="p-3">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr class="font-weight-bolder">
+                                <th scope="col">ID</th>
+                                <th scope="col">User Name</th>
+                                <th scope="col">Password</th>
+                                <th scope="col">Role</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="">
+                                <th scope="row" th:text="${user.id}"></th>
+                                <td th:text="${user.username}"></td>
+                                <td th:text="${user.password}"></td>
+                                <td>
+                                    <span th:each="role : ${user.roles}" th:text="${role.role}" class="pr-1"></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
-<div th:if="${errorMessage}" th:utext="${errorMessage}" class="error" />
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

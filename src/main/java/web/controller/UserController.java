@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -32,9 +33,13 @@ public class UserController {
     @GetMapping(value = "/admin/users")
     public ModelAndView getUsers() {
         List<User> users = userService.listAllUsers();
+        User userAuth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Role> allRoles = userService.rolesList();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("users");
         modelAndView.addObject("users", users);
+        modelAndView.addObject("userauth", userAuth);
+        modelAndView.addObject("allRoles", allRoles);
         return modelAndView;
     }
 
@@ -109,7 +114,7 @@ public class UserController {
             roles.add(userService.getRoleByName(role));
         }
        user.setRoles(roles);
-        if (checkedRoles.length < 2) {
+        if (checkedRoles.length < 1) {
             modelAndView.setViewName("edit");
             modelAndView.addObject("listRoles", listRoles);
             modelAndView.addObject("errorMessage","Choose the role or roles");
@@ -130,18 +135,23 @@ public class UserController {
 
 
     @GetMapping(value = {"/admin/delete/{userId}"})
-    public String showDeleteContactById(
+    public ModelAndView showDeleteContactById(
             Model model, @PathVariable long userId) {
+        ModelAndView modelAndView = new ModelAndView();
         User user = userService.getUserById(userId);
         userService.delete(user);
-        //model.addAttribute("user", user);
-        return "redirect:/admin";
+        modelAndView.setViewName("redirect:/admin");
+        return modelAndView;
     }
 
 
     @GetMapping("/user")
     public ModelAndView home(Authentication auth, ModelAndView mav) {
-        mav.addObject("user", userService.getUserByName(auth.getName()));
+        User user = userService.getUserByName(auth.getName());
+        mav.addObject("user", user);
+        Role roleAdmin = new Role();
+        roleAdmin = userService.getRoleByName("admin");
+        mav.addObject("roleAdmin", roleAdmin);
         mav.setViewName("user");
         return mav;
     }

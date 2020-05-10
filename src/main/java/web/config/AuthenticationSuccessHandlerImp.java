@@ -46,10 +46,10 @@ public class AuthenticationSuccessHandlerImp  implements AuthenticationSuccessHa
             }
         }
 
-        if (isAdmin) {
-            return "/admin/users";
-        } else if (isUser) {
+        if (isUser) {
             return "/user";
+        } else if (isAdmin) {
+            return "/admin/users";
         } else {
             throw new IllegalStateException();
         }
